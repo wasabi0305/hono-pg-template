@@ -15,7 +15,73 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String
-  name  String
+  id            Int      @id @default(autoincrement())
+  email         String
+  name          String
+  // password      String
+  profile       Profile?
+  sentChats     Chat[]   @relation("SentChats")
+  receivedChats Chat?    @relation("ReceivedChats")
+  sentLikes     Like[]   @relation("SentLikes")
+  receivedLikes Like?    @relation("ReceivedLikes")
+}
+
+model Profile {
+  id          Int          @id @default(autoincrement())
+  sex         String
+  age         Int
+  profileText String
+  user        User         @relation(fields: [userId], references: [id])
+  userId      Int          @unique
+  human       Human?
+  profileTag  ProfileTag[]
+  photo       Photo[]
+}
+
+model Human {
+  id        Int     @id @default(autoincrement())
+  sex       String
+  age       Int
+  address   String
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int     @unique
+}
+
+model ProfileTag {
+  id        Int     @id @default(autoincrement())
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int     @unique
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  tagId     Int     @unique
+}
+
+model Tag {
+  id         Int          @id @default(autoincrement())
+  tag        String
+  profileTag ProfileTag[]
+}
+
+model Photo {
+  id        Int     @id @default(autoincrement())
+  photo     String
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int     @unique
+}
+
+model Chat {
+  id          Int      @id @default(autoincrement())
+  message     String
+  time        DateTime @default(now())
+  sender      User     @relation("SentChats", fields: [senderId], references: [id])
+  senderId    Int      @unique
+  recipient   User     @relation("ReceivedChats", fields: [recipientId], references: [id])
+  recipientId Int      @unique
+}
+
+model Like {
+  id          Int  @id @default(autoincrement())
+  sender      User @relation("SentLikes", fields: [senderId], references: [id])
+  senderId    Int  @unique
+  recipient   User @relation("ReceivedLikes", fields: [recipientId], references: [id])
+  recipientId Int  @unique
 }
