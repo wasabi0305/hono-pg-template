@@ -1,0 +1,19 @@
+{
+  "name": "Dev Container",
+  "dockerComposeFile": "compose.yaml",
+  "service": "app",
+  "workspaceFolder": "/workspace/",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "node",
+  "onCreateCommand": ".devcontainer/on_create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "Prisma.prisma"
+      ]
+    }
+  }
+}
