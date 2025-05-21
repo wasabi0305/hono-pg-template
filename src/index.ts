@@ -59,25 +59,11 @@ app.get("/", (c) => {
  */
 
 // Register routes with OpenAPI
-app.openapi(getUsersRoute, ((c: any) => {
-  return handleGetUsers(c);
-}) as any);
-
-app.openapi(createUserRoute, ((c: any) => {
-  return handleCreateUser(c);
-}) as any);
-
-app.openapi(getUserByIdRoute, ((c: any) => {
-  return handleGetUserById(c);
-}) as any);
-
-app.openapi(updateUserRoute, ((c: any) => {
-  return handleUpdateUser(c);
-}) as any);
-
-app.openapi(deleteUserRoute, ((c: any) => {
-  return handleDeleteUser(c);
-}) as any);
+app.openapi(getUsersRoute, handleGetUsers);
+app.openapi(createUserRoute, handleCreateUser);
+app.openapi(getUserByIdRoute, handleGetUserById);
+app.openapi(updateUserRoute, handleUpdateUser);
+app.openapi(deleteUserRoute, handleDeleteUser);
 
 /**
  * Start the server on port 3000
