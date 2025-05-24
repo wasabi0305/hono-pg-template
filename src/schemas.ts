@@ -19,6 +19,18 @@ export const UserCreateSchema = z
   .object({
     email: z.string().email().openapi({ example: "user@example.com" }),
     name: z.string().min(1).openapi({ example: "John Doe" }),
+    profile: z.object({
+      sex: z.enum(["MALE", "FEMALE"]).openapi({ example: "MALE" }),
+      dateOfBirth: z.coerce.date().openapi({ example: "2000-01-01T00:00:00Z" }),
+      profileText: z.string().min(1).openapi({ example: "Hello, world!" }),
+      human: z.object({
+        sex: z.enum(["MALE", "FEMALE"]).openapi({ example: "MALE" }),
+        dateOfBirth: z.coerce
+          .date()
+          .openapi({ example: "2000-01-01T00:00:00Z" }),
+        address: z.string().min(1).openapi({ example: "Tokyo" }),
+      }),
+    }),
   })
   .openapi("UserCreate");
 
@@ -30,9 +42,33 @@ export const UserUpdateSchema = z
       .optional()
       .openapi({ example: "user@example.com" }),
     name: z.string().min(1).optional().openapi({ example: "John Doe" }),
-  })
-  .refine((data) => data.email !== undefined || data.name !== undefined, {
-    message: "At least one field (email or name) must be provided",
+    profile: z
+      .object({
+        sex: z.enum(["MALE", "FEMALE"]).optional().openapi({ example: "MALE" }),
+        dateOfBirth: z.coerce
+          .date()
+          .optional()
+          .openapi({ example: "2000-01-01T00:00:00Z" }),
+        profileText: z
+          .string()
+          .min(1)
+          .optional()
+          .openapi({ example: "Hello, world!" }),
+        human: z
+          .object({
+            sex: z
+              .enum(["MALE", "FEMALE"])
+              .optional()
+              .openapi({ example: "MALE" }),
+            dateOfBirth: z.coerce
+              .date()
+              .optional()
+              .openapi({ example: "2000-01-01T00:00:00Z" }),
+            address: z.string().min(1).optional().openapi({ example: "Tokyo" }),
+          })
+          .optional(),
+      })
+      .optional(),
   })
   .openapi("UserUpdate");
 
@@ -41,6 +77,24 @@ export const UserResponseSchema = z
     id: z.number().int().openapi({ example: 1 }),
     email: z.string().email().openapi({ example: "user@example.com" }),
     name: z.string().openapi({ example: "John Doe" }),
+    profile: z
+      .object({
+        id: z.number().int().openapi({ example: 1 }),
+        sex: z.enum(["MALE", "FEMALE"]).openapi({ example: "MALE" }),
+        dateOfBirth: z.date().transform((value) => value.toISOString()),
+        profileText: z.string().openapi({ example: "Hello, world!" }),
+        userId: z.number().int().openapi({ example: 1 }),
+        human: z
+          .object({
+            id: z.number().int().openapi({ example: 1 }),
+            sex: z.enum(["MALE", "FEMALE"]).openapi({ example: "MALE" }),
+            dateOfBirth: z.date().transform((value) => value.toISOString()),
+            address: z.string().openapi({ example: "Tokyo" }),
+            profileId: z.number().int().openapi({ example: 1 }),
+          })
+          .nullable(),
+      })
+      .nullable(),
   })
   .openapi("User");
 
@@ -56,3 +110,37 @@ export const DeleteResponseSchema = z
     user: UserResponseSchema,
   })
   .openapi("DeleteResponse");
+
+export const TagCreateSchema = z
+  .object({
+    tag: z.string().min(1).openapi({ example: "Likes salmon." }),
+  })
+  .openapi("TagCreate");
+
+export const TagResponseSchema = z
+  .object({
+    id: z.number().int().openapi({ example: 1 }),
+    tag: z.string().openapi({ example: "Likes salmon" })
+  })
+  .openapi("Tag");
+
+export const TagIdSchema = z.object({
+  id: z.coerce
+    .number()
+    .int()
+    .positive()
+    .openapi({
+      param: {
+        name: "id",
+        in: "path",
+      },
+      example: 1,
+    }),
+});
+
+export const DeleteTagSchema = z
+  .object({
+    message: z.string().openapi({ example: "Tag deleted successfully" }),
+    tag: TagIdSchema,
+  })
+  .openapi("DeleteTag");

@@ -6,6 +6,10 @@ import {
   UserResponseSchema,
   ErrorResponseSchema,
   DeleteResponseSchema,
+  TagCreateSchema,
+  TagResponseSchema,
+  DeleteTagSchema,
+  TagIdSchema,
 } from "./schemas.js";
 
 // Define routes using OpenAPI
@@ -189,6 +193,110 @@ export const deleteUserRoute = createRoute({
         },
       },
       description: "User not found",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const createTagRoute = createRoute({
+  method: "post",
+  path: "/tags",
+  tags: ["Tags"],
+  description: "Creates a new tag",
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: TagCreateSchema,
+        },
+      },
+      required: true,
+    },
+  },
+  responses: {
+    201: {
+      content: {
+        "application/json": {
+          schema: TagResponseSchema,
+        },
+      },
+      description: "Tag created successfully",
+    },
+    400: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Bad request",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const getTagsRoute = createRoute({
+  method: "get",
+  path: "/tags",
+  tags: ["Tags"],
+  description: "Retrieves a list of all tags",
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: z.array(TagResponseSchema),
+        },
+      },
+      description: "List of tags",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const deleteTagRoute = createRoute({
+  method: "delete",
+  path: "/tags/{id}",
+  tags: ["Tags"],
+  description: "Deletes a specific user by ID",
+  request: {
+    params: TagIdSchema,
+  },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: DeleteTagSchema,
+        },
+      },
+      description: "Tag deleted successfully",
+    },
+    404: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Tag not found",
     },
     500: {
       content: {

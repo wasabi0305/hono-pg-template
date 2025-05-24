@@ -13,6 +13,9 @@ import {
   getUserByIdRoute,
   updateUserRoute,
   deleteUserRoute,
+  createTagRoute,
+  deleteTagRoute,
+  getTagsRoute,
 } from "./routes.js";
 import {
   handleGetUsers,
@@ -20,6 +23,9 @@ import {
   handleGetUserById,
   handleUpdateUser,
   handleDeleteUser,
+  handleCreateTag,
+  handleDeleteTag,
+  handleGetTags,
 } from "./handlers.js";
 
 // Initialize OpenAPIHono application with environment bindings
@@ -64,6 +70,9 @@ app.openapi(createUserRoute, handleCreateUser);
 app.openapi(getUserByIdRoute, handleGetUserById);
 app.openapi(updateUserRoute, handleUpdateUser);
 app.openapi(deleteUserRoute, handleDeleteUser);
+app.openapi(createTagRoute, handleCreateTag);
+app.openapi(getTagsRoute, handleGetTags)
+app.openapi(deleteTagRoute, handleDeleteTag);
 
 /**
  * Start the server on port 3000

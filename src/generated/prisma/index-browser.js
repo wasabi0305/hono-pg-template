@@ -126,6 +126,53 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.ProfileScalarFieldEnum = {
+  id: 'id',
+  sex: 'sex',
+  dateOfBirth: 'dateOfBirth',
+  profileText: 'profileText',
+  userId: 'userId'
+};
+
+exports.Prisma.HumanScalarFieldEnum = {
+  id: 'id',
+  sex: 'sex',
+  dateOfBirth: 'dateOfBirth',
+  address: 'address',
+  profileId: 'profileId'
+};
+
+exports.Prisma.ProfileTagScalarFieldEnum = {
+  id: 'id',
+  profileId: 'profileId',
+  tagId: 'tagId'
+};
+
+exports.Prisma.TagScalarFieldEnum = {
+  id: 'id',
+  tag: 'tag'
+};
+
+exports.Prisma.PhotoScalarFieldEnum = {
+  id: 'id',
+  photo: 'photo',
+  profileId: 'profileId'
+};
+
+exports.Prisma.ChatScalarFieldEnum = {
+  id: 'id',
+  message: 'message',
+  time: 'time',
+  senderId: 'senderId',
+  recipientId: 'recipientId'
+};
+
+exports.Prisma.LikeScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  recipientId: 'recipientId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -136,9 +183,24 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.Sex = exports.$Enums.Sex = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Profile: 'Profile',
+  Human: 'Human',
+  ProfileTag: 'ProfileTag',
+  Tag: 'Tag',
+  Photo: 'Photo',
+  Chat: 'Chat',
+  Like: 'Like'
 };
 
 /**
