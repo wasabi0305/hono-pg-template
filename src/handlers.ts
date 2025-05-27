@@ -13,6 +13,7 @@ import {
   createProfileTagRoute,
   getProfileTagsRoute,
   deleteProfileTagRoute,
+  createLikeRoute,
 } from "./routes.js";
 
 // Define environment bindings type
@@ -414,3 +415,34 @@ export const handleDeleteProfileTag: RouteHandler<
   }
 };
 
+export const handleCreateLike: RouteHandler<
+  typeof createLikeRoute,
+  Env
+> = async (c) => {
+  let prisma = null;
+  try {
+    prisma = getPrisma(c.env!.DATABASE_URL);
+    const { id } = c.req.valid("param");
+    const body = c.req.valid("json");
+
+    const like = await prisma.like.create({
+      data: {
+        sender: { connect: { senderId: id } },
+        recipient: { connect: { id: body.recipientId } },
+      },
+    });
+    return c.json(like, 201) as TypedResponse<
+      typeof like,
+      201,
+      "json"
+    >;
+  } catch (error) {
+    console.error("Error sending like:", error);
+    return c.json(
+      { error: "Failed to send like" },
+      500
+    ) as TypedResponse<{ error: string }, 500, "json">;
+  } finally {
+    await prisma?.$disconnect();
+  }
+};

@@ -14,6 +14,8 @@ import {
   ProfileTagCreateSchema,
   DeleteProfileTagSchema,
   ProfileTagIdSchema,
+  LikeResponseSchema,
+  LikeCreateSchema,
 } from "./schemas.js";
 
 // Define routes using OpenAPI
@@ -417,6 +419,50 @@ export const deleteProfileTagRoute = createRoute({
         },
       },
       description: "ProfileTag not found",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const createLikeRoute = createRoute({
+  method: "post",
+  path: "/users/{id}/likes",
+  tags: ["Likes"],
+  description: "Send a new like",
+  request: {
+    params: UserIdSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: LikeCreateSchema,
+        },
+      },
+      required: true,
+    },
+  },
+  responses: {
+    201: {
+      content: {
+        "application/json": {
+          schema: LikeResponseSchema,
+        },
+      },
+      description: "Like sent successfully",
+    },
+    400: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Bad request",
     },
     500: {
       content: {

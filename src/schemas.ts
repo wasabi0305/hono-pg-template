@@ -193,3 +193,17 @@ export const DeleteProfileTagSchema = z
     tag: ProfileTagResponseSchema,
   })
   .openapi("DeleteTag");
+
+export const LikeResponseSchema = z
+  .object({
+    id: z.number().int().openapi({ example: 1 }),
+    senderId: z.number().int().openapi({ example: 1 }),
+    recipientId: z.number().int().openapi({ example: 1 }),
+  })
+  .openapi("Like");
+
+export const LikeCreateSchema = z
+  .object({
+    recipientId: z.number().openapi({ example: 1 }),
+  })
+  .openapi("LikeCreate");
