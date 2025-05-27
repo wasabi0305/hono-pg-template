@@ -113,14 +113,14 @@ export const DeleteResponseSchema = z
 
 export const TagCreateSchema = z
   .object({
-    tag: z.string().min(1).openapi({ example: "Likes salmon." }),
+    tag: z.string().min(1).openapi({ example: "Likes salmon" }),
   })
   .openapi("TagCreate");
 
 export const TagResponseSchema = z
   .object({
     id: z.number().int().openapi({ example: 1 }),
-    tag: z.string().openapi({ example: "Likes salmon" })
+    tag: z.string().openapi({ example: "Likes salmon" }),
   })
   .openapi("Tag");
 
@@ -142,5 +142,54 @@ export const DeleteTagSchema = z
   .object({
     message: z.string().openapi({ example: "Tag deleted successfully" }),
     tag: TagIdSchema,
+  })
+  .openapi("DeleteTag");
+
+export const ProfileTagResponseSchema = z
+  .object({
+    id: z.number().int().openapi({ example: 1 }),
+    userId: z.number().int().openapi({ example: 1 }),
+    tag: z.object({
+      id: z.number().int().openapi({ example: 1 }),
+      tag: z.string().openapi({ example: "Likes salmon" }),
+    }),
+  })
+  .openapi("Tag");
+
+export const ProfileTagCreateSchema = z
+  .object({
+    tagId: z.number().openapi({ example: 1 }),
+  })
+  .openapi("ProfileTagCreate");
+
+export const ProfileTagIdSchema = z.object({
+  userId: z.coerce
+    .number()
+    .int()
+    .positive()
+    .openapi({
+      param: {
+        name: "userId",
+        in: "path",
+      },
+      example: 1,
+    }),
+  tagId: z.coerce
+    .number()
+    .int()
+    .positive()
+    .openapi({
+      param: {
+        name: "tagId",
+        in: "path",
+      },
+      example: 1,
+    }),
+});
+
+export const DeleteProfileTagSchema = z
+  .object({
+    message: z.string().openapi({ example: "ProfileTag deleted successfully" }),
+    tag: ProfileTagResponseSchema,
   })
   .openapi("DeleteTag");

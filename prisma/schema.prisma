@@ -21,9 +21,9 @@ model User {
   // password      String
   profile       Profile?
   sentChats     Chat[]   @relation("SentChats")
-  receivedChats Chat?    @relation("ReceivedChats")
+  receivedChats Chat[]   @relation("ReceivedChats")
   sentLikes     Like[]   @relation("SentLikes")
-  receivedLikes Like?    @relation("ReceivedLikes")
+  receivedLikes Like[]   @relation("ReceivedLikes")
 }
 
 model Profile {
@@ -55,9 +55,11 @@ model Human {
 model ProfileTag {
   id        Int     @id @default(autoincrement())
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  profileId Int     @unique
+  profileId Int
   tag       Tag     @relation(fields: [tagId], references: [id])
-  tagId     Int     @unique
+  tagId     Int
+
+  @@unique([profileId, tagId])
 }
 
 model Tag {
@@ -78,15 +80,17 @@ model Chat {
   message     String
   time        DateTime @default(now())
   sender      User?    @relation("SentChats", fields: [senderId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  senderId    Int?     @unique
+  senderId    Int?
   recipient   User?    @relation("ReceivedChats", fields: [recipientId], references: [id], onDelete: SetNull, onUpdate: Cascade)
-  recipientId Int?     @unique
+  recipientId Int?
 }
 
 model Like {
   id          Int  @id @default(autoincrement())
   sender      User @relation("SentLikes", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  senderId    Int  @unique
+  senderId    Int
   recipient   User @relation("ReceivedLikes", fields: [recipientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  recipientId Int  @unique
+  recipientId Int
+
+  @@unique([senderId, recipientId])
 }

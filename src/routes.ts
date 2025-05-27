@@ -10,6 +10,10 @@ import {
   TagResponseSchema,
   DeleteTagSchema,
   TagIdSchema,
+  ProfileTagResponseSchema,
+  ProfileTagCreateSchema,
+  DeleteProfileTagSchema,
+  ProfileTagIdSchema,
 } from "./schemas.js";
 
 // Define routes using OpenAPI
@@ -297,6 +301,122 @@ export const deleteTagRoute = createRoute({
         },
       },
       description: "Tag not found",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const createProfileTagRoute = createRoute({
+  method: "post",
+  path: "/users/{id}/tags",
+  tags: ["ProfileTags"],
+  description: "Creates a new profileTag",
+  request: {
+    params: UserIdSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: ProfileTagCreateSchema,
+        },
+      },
+      required: true,
+    },
+  },
+  responses: {
+    201: {
+      content: {
+        "application/json": {
+          schema: ProfileTagResponseSchema,
+        },
+      },
+      description: "ProfileTag created successfully",
+    },
+    400: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Bad request",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const getProfileTagsRoute = createRoute({
+  method: "get",
+  path: "/users/{id}/tags",
+  tags: ["ProfileTags"],
+  description: "Retrieves a specific tags by ID",
+  request: {
+    params: UserIdSchema,
+  },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: ProfileTagResponseSchema,
+        },
+      },
+      description: "Tag details",
+    },
+    404: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "User not found",
+    },
+    500: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "Server error",
+    },
+  },
+});
+
+export const deleteProfileTagRoute = createRoute({
+  method: "delete",
+  path: "/users/{userId}/tags/{tagId}",
+  tags: ["ProfileTags"],
+  description: "Deletes a specific profileTag by ID",
+  request: {
+    params: ProfileTagIdSchema,
+  },
+  responses: {
+    200: {
+      content: {
+        "application/json": {
+          schema: DeleteProfileTagSchema,
+        },
+      },
+      description: "ProfileTag deleted successfully",
+    },
+    404: {
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+      description: "ProfileTag not found",
     },
     500: {
       content: {

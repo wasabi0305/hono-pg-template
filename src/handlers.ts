@@ -10,6 +10,9 @@ import {
   createTagRoute,
   deleteTagRoute,
   getTagsRoute,
+  createProfileTagRoute,
+  getProfileTagsRoute,
+  deleteProfileTagRoute,
 } from "./routes.js";
 
 // Define environment bindings type
@@ -299,3 +302,115 @@ export const handleDeleteTag: RouteHandler<typeof deleteTagRoute, Env> = async (
     await prisma?.$disconnect();
   }
 };
+
+export const handleCreateProfileTag: RouteHandler<
+  typeof createProfileTagRoute,
+  Env
+> = async (c) => {
+  let prisma = null;
+  try {
+    prisma = getPrisma(c.env!.DATABASE_URL);
+    const { id } = c.req.valid("param");
+    const body = c.req.valid("json");
+
+    const profileTag = await prisma.profileTag.create({
+      data: {
+        profile: { connect: { userId: id } },
+        tag: { connect: { id: body.tagId } },
+      },
+      include: { tag: true },
+    });
+    return c.json(profileTag, 201) as TypedResponse<
+      typeof profileTag,
+      201,
+      "json"
+    >;
+  } catch (error) {
+    console.error("Error creating profileTag:", error);
+    return c.json(
+      { error: "Failed to create profileTag" },
+      500
+    ) as TypedResponse<{ error: string }, 500, "json">;
+  } finally {
+    await prisma?.$disconnect();
+  }
+};
+
+export const handleGetProfileTags: RouteHandler<
+  typeof getProfileTagsRoute,
+  Env
+> = async (c) => {
+  let prisma = null;
+  try {
+    prisma = getPrisma(c.env!.DATABASE_URL);
+    const { id } = c.req.valid("param");
+    const profileTags = await prisma.profileTag.findMany({
+      where: { profile: { userId: id } },
+    });
+    return c.json(profileTags) as TypedResponse<
+      typeof profileTags,
+      200,
+      "json"
+    >;
+  } catch (error) {
+    console.error("Error fetching profileTags:", error);
+    return c.json(
+      { error: "Failed to fetch profileTags" },
+      500
+    ) as TypedResponse<{ error: string }, 500, "json">;
+  } finally {
+    await prisma?.$disconnect();
+  }
+};
+
+export const handleDeleteProfileTag: RouteHandler<
+  typeof deleteProfileTagRoute,
+  Env
+> = async (c) => {
+  let prisma = null;
+  try {
+    prisma = getPrisma(c.env!.DATABASE_URL);
+    const { userId, tagId } = c.req.valid("param");
+
+    const profile = await prisma.profile.findUnique({ where: { userId } });
+    if (!profile) {
+      return c.json({ error: "User not found" }, 404) as TypedResponse<
+        { error: string },
+        404,
+        "json"
+      >;
+    }
+
+    const profileTag = await prisma.profileTag.delete({
+      where: { profileId_tagId: { profileId: profile.id, tagId } },
+    });
+
+    return c.json({
+      message: "ProfileTag deleted successfully",
+      profileTag,
+    }) as TypedResponse<
+      { message: string; profileTag: typeof profileTag },
+      200,
+      "json"
+    >;
+  } catch (error: any) {
+    console.error("Error deleting profileTag:", error);
+
+    // Check for Prisma's P2025 error (record not found)
+    if (error.code === "P2025") {
+      return c.json({ error: "ProfileTag not found" }, 404) as TypedResponse<
+        { error: string },
+        404,
+        "json"
+      >;
+    }
+
+    return c.json(
+      { error: "Failed to delete profileTag" },
+      500
+    ) as TypedResponse<{ error: string }, 500, "json">;
+  } finally {
+    await prisma?.$disconnect();
+  }
+};
+

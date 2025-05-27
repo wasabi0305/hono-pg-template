@@ -1524,12 +1524,16 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     sentChats: number
+    receivedChats: number
     sentLikes: number
+    receivedLikes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sentChats?: boolean | UserCountOutputTypeCountSentChatsArgs
+    receivedChats?: boolean | UserCountOutputTypeCountReceivedChatsArgs
     sentLikes?: boolean | UserCountOutputTypeCountSentLikesArgs
+    receivedLikes?: boolean | UserCountOutputTypeCountReceivedLikesArgs
   }
 
   // Custom InputTypes
@@ -1553,7 +1557,21 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountReceivedChatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountSentLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountReceivedLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LikeWhereInput
   }
 
@@ -1858,9 +1876,9 @@ export namespace Prisma {
     objects: {
       profile: Prisma.$ProfilePayload<ExtArgs> | null
       sentChats: Prisma.$ChatPayload<ExtArgs>[]
-      receivedChats: Prisma.$ChatPayload<ExtArgs> | null
+      receivedChats: Prisma.$ChatPayload<ExtArgs>[]
       sentLikes: Prisma.$LikePayload<ExtArgs>[]
-      receivedLikes: Prisma.$LikePayload<ExtArgs> | null
+      receivedLikes: Prisma.$LikePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2262,9 +2280,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     profile<T extends User$profileArgs<ExtArgs> = {}>(args?: Subset<T, User$profileArgs<ExtArgs>>): Prisma__ProfileClient<$Result.GetResult<Prisma.$ProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     sentChats<T extends User$sentChatsArgs<ExtArgs> = {}>(args?: Subset<T, User$sentChatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    receivedChats<T extends User$receivedChatsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedChatsArgs<ExtArgs>>): Prisma__ChatClient<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    receivedChats<T extends User$receivedChatsArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedChatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentLikes<T extends User$sentLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    receivedLikes<T extends User$receivedLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedLikesArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    receivedLikes<T extends User$receivedLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$receivedLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2744,6 +2762,11 @@ export namespace Prisma {
      */
     include?: ChatInclude<ExtArgs> | null
     where?: ChatWhereInput
+    orderBy?: ChatOrderByWithRelationInput | ChatOrderByWithRelationInput[]
+    cursor?: ChatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatScalarFieldEnum | ChatScalarFieldEnum[]
   }
 
   /**
@@ -2787,6 +2810,11 @@ export namespace Prisma {
      */
     include?: LikeInclude<ExtArgs> | null
     where?: LikeWhereInput
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    cursor?: LikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
   }
 
   /**
@@ -10728,9 +10756,9 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     sentChats?: ChatListRelationFilter
-    receivedChats?: XOR<ChatNullableScalarRelationFilter, ChatWhereInput> | null
+    receivedChats?: ChatListRelationFilter
     sentLikes?: LikeListRelationFilter
-    receivedLikes?: XOR<LikeNullableScalarRelationFilter, LikeWhereInput> | null
+    receivedLikes?: LikeListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10739,9 +10767,9 @@ export namespace Prisma {
     name?: SortOrder
     profile?: ProfileOrderByWithRelationInput
     sentChats?: ChatOrderByRelationAggregateInput
-    receivedChats?: ChatOrderByWithRelationInput
+    receivedChats?: ChatOrderByRelationAggregateInput
     sentLikes?: LikeOrderByRelationAggregateInput
-    receivedLikes?: LikeOrderByWithRelationInput
+    receivedLikes?: LikeOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10753,9 +10781,9 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     profile?: XOR<ProfileNullableScalarRelationFilter, ProfileWhereInput> | null
     sentChats?: ChatListRelationFilter
-    receivedChats?: XOR<ChatNullableScalarRelationFilter, ChatWhereInput> | null
+    receivedChats?: ChatListRelationFilter
     sentLikes?: LikeListRelationFilter
-    receivedLikes?: XOR<LikeNullableScalarRelationFilter, LikeWhereInput> | null
+    receivedLikes?: LikeListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -10922,14 +10950,15 @@ export namespace Prisma {
 
   export type ProfileTagWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    profileId?: number
-    tagId?: number
+    profileId_tagId?: ProfileTagProfileIdTagIdCompoundUniqueInput
     AND?: ProfileTagWhereInput | ProfileTagWhereInput[]
     OR?: ProfileTagWhereInput[]
     NOT?: ProfileTagWhereInput | ProfileTagWhereInput[]
+    profileId?: IntFilter<"ProfileTag"> | number
+    tagId?: IntFilter<"ProfileTag"> | number
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
     tag?: XOR<TagScalarRelationFilter, TagWhereInput>
-  }, "id" | "profileId" | "tagId">
+  }, "id" | "profileId_tagId">
 
   export type ProfileTagOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11065,16 +11094,16 @@ export namespace Prisma {
 
   export type ChatWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    senderId?: number
-    recipientId?: number
     AND?: ChatWhereInput | ChatWhereInput[]
     OR?: ChatWhereInput[]
     NOT?: ChatWhereInput | ChatWhereInput[]
     message?: StringFilter<"Chat"> | string
     time?: DateTimeFilter<"Chat"> | Date | string
+    senderId?: IntNullableFilter<"Chat"> | number | null
+    recipientId?: IntNullableFilter<"Chat"> | number | null
     sender?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     recipient?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "senderId" | "recipientId">
+  }, "id">
 
   export type ChatOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11121,14 +11150,15 @@ export namespace Prisma {
 
   export type LikeWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    senderId?: number
-    recipientId?: number
+    senderId_recipientId?: LikeSenderIdRecipientIdCompoundUniqueInput
     AND?: LikeWhereInput | LikeWhereInput[]
     OR?: LikeWhereInput[]
     NOT?: LikeWhereInput | LikeWhereInput[]
+    senderId?: IntFilter<"Like"> | number
+    recipientId?: IntFilter<"Like"> | number
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     recipient?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "senderId" | "recipientId">
+  }, "id" | "senderId_recipientId">
 
   export type LikeOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11155,9 +11185,9 @@ export namespace Prisma {
     name: string
     profile?: ProfileCreateNestedOneWithoutUserInput
     sentChats?: ChatCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11166,9 +11196,9 @@ export namespace Prisma {
     name: string
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     sentChats?: ChatUncheckedCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatUncheckedCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatUncheckedCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeUncheckedCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeUncheckedCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeUncheckedCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUpdateInput = {
@@ -11176,9 +11206,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUpdateOneWithoutUserNestedInput
     sentChats?: ChatUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11187,9 +11217,9 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     sentChats?: ChatUncheckedUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUncheckedUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUncheckedUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11563,20 +11593,10 @@ export namespace Prisma {
     none?: ChatWhereInput
   }
 
-  export type ChatNullableScalarRelationFilter = {
-    is?: ChatWhereInput | null
-    isNot?: ChatWhereInput | null
-  }
-
   export type LikeListRelationFilter = {
     every?: LikeWhereInput
     some?: LikeWhereInput
     none?: LikeWhereInput
-  }
-
-  export type LikeNullableScalarRelationFilter = {
-    is?: LikeWhereInput | null
-    isNot?: LikeWhereInput | null
   }
 
   export type ChatOrderByRelationAggregateInput = {
@@ -11797,6 +11817,11 @@ export namespace Prisma {
     isNot?: TagWhereInput
   }
 
+  export type ProfileTagProfileIdTagIdCompoundUniqueInput = {
+    profileId: number
+    tagId: number
+  }
+
   export type ProfileTagCountOrderByAggregateInput = {
     id?: SortOrder
     profileId?: SortOrder
@@ -11951,6 +11976,11 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type LikeSenderIdRecipientIdCompoundUniqueInput = {
+    senderId: number
+    recipientId: number
+  }
+
   export type LikeCountOrderByAggregateInput = {
     id?: SortOrder
     senderId?: SortOrder
@@ -11994,10 +12024,11 @@ export namespace Prisma {
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
-  export type ChatCreateNestedOneWithoutRecipientInput = {
-    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput
-    connect?: ChatWhereUniqueInput
+  export type ChatCreateNestedManyWithoutRecipientInput = {
+    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput> | ChatCreateWithoutRecipientInput[] | ChatUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput | ChatCreateOrConnectWithoutRecipientInput[]
+    createMany?: ChatCreateManyRecipientInputEnvelope
+    connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
   export type LikeCreateNestedManyWithoutSenderInput = {
@@ -12007,10 +12038,11 @@ export namespace Prisma {
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
-  export type LikeCreateNestedOneWithoutRecipientInput = {
-    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput
-    connect?: LikeWhereUniqueInput
+  export type LikeCreateNestedManyWithoutRecipientInput = {
+    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput> | LikeCreateWithoutRecipientInput[] | LikeUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput | LikeCreateOrConnectWithoutRecipientInput[]
+    createMany?: LikeCreateManyRecipientInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
   export type ProfileUncheckedCreateNestedOneWithoutUserInput = {
@@ -12026,10 +12058,11 @@ export namespace Prisma {
     connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
-  export type ChatUncheckedCreateNestedOneWithoutRecipientInput = {
-    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput
-    connect?: ChatWhereUniqueInput
+  export type ChatUncheckedCreateNestedManyWithoutRecipientInput = {
+    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput> | ChatCreateWithoutRecipientInput[] | ChatUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput | ChatCreateOrConnectWithoutRecipientInput[]
+    createMany?: ChatCreateManyRecipientInputEnvelope
+    connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
   }
 
   export type LikeUncheckedCreateNestedManyWithoutSenderInput = {
@@ -12039,10 +12072,11 @@ export namespace Prisma {
     connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
-  export type LikeUncheckedCreateNestedOneWithoutRecipientInput = {
-    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput
-    connect?: LikeWhereUniqueInput
+  export type LikeUncheckedCreateNestedManyWithoutRecipientInput = {
+    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput> | LikeCreateWithoutRecipientInput[] | LikeUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput | LikeCreateOrConnectWithoutRecipientInput[]
+    createMany?: LikeCreateManyRecipientInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12073,14 +12107,18 @@ export namespace Prisma {
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
-  export type ChatUpdateOneWithoutRecipientNestedInput = {
-    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput
-    upsert?: ChatUpsertWithoutRecipientInput
-    disconnect?: ChatWhereInput | boolean
-    delete?: ChatWhereInput | boolean
-    connect?: ChatWhereUniqueInput
-    update?: XOR<XOR<ChatUpdateToOneWithWhereWithoutRecipientInput, ChatUpdateWithoutRecipientInput>, ChatUncheckedUpdateWithoutRecipientInput>
+  export type ChatUpdateManyWithoutRecipientNestedInput = {
+    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput> | ChatCreateWithoutRecipientInput[] | ChatUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput | ChatCreateOrConnectWithoutRecipientInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutRecipientInput | ChatUpsertWithWhereUniqueWithoutRecipientInput[]
+    createMany?: ChatCreateManyRecipientInputEnvelope
+    set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutRecipientInput | ChatUpdateWithWhereUniqueWithoutRecipientInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutRecipientInput | ChatUpdateManyWithWhereWithoutRecipientInput[]
+    deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
   export type LikeUpdateManyWithoutSenderNestedInput = {
@@ -12097,14 +12135,18 @@ export namespace Prisma {
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
-  export type LikeUpdateOneWithoutRecipientNestedInput = {
-    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput
-    upsert?: LikeUpsertWithoutRecipientInput
-    disconnect?: LikeWhereInput | boolean
-    delete?: LikeWhereInput | boolean
-    connect?: LikeWhereUniqueInput
-    update?: XOR<XOR<LikeUpdateToOneWithWhereWithoutRecipientInput, LikeUpdateWithoutRecipientInput>, LikeUncheckedUpdateWithoutRecipientInput>
+  export type LikeUpdateManyWithoutRecipientNestedInput = {
+    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput> | LikeCreateWithoutRecipientInput[] | LikeUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput | LikeCreateOrConnectWithoutRecipientInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutRecipientInput | LikeUpsertWithWhereUniqueWithoutRecipientInput[]
+    createMany?: LikeCreateManyRecipientInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutRecipientInput | LikeUpdateWithWhereUniqueWithoutRecipientInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutRecipientInput | LikeUpdateManyWithWhereWithoutRecipientInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -12139,14 +12181,18 @@ export namespace Prisma {
     deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
-  export type ChatUncheckedUpdateOneWithoutRecipientNestedInput = {
-    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput
-    upsert?: ChatUpsertWithoutRecipientInput
-    disconnect?: ChatWhereInput | boolean
-    delete?: ChatWhereInput | boolean
-    connect?: ChatWhereUniqueInput
-    update?: XOR<XOR<ChatUpdateToOneWithWhereWithoutRecipientInput, ChatUpdateWithoutRecipientInput>, ChatUncheckedUpdateWithoutRecipientInput>
+  export type ChatUncheckedUpdateManyWithoutRecipientNestedInput = {
+    create?: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput> | ChatCreateWithoutRecipientInput[] | ChatUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: ChatCreateOrConnectWithoutRecipientInput | ChatCreateOrConnectWithoutRecipientInput[]
+    upsert?: ChatUpsertWithWhereUniqueWithoutRecipientInput | ChatUpsertWithWhereUniqueWithoutRecipientInput[]
+    createMany?: ChatCreateManyRecipientInputEnvelope
+    set?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    disconnect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    delete?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    connect?: ChatWhereUniqueInput | ChatWhereUniqueInput[]
+    update?: ChatUpdateWithWhereUniqueWithoutRecipientInput | ChatUpdateWithWhereUniqueWithoutRecipientInput[]
+    updateMany?: ChatUpdateManyWithWhereWithoutRecipientInput | ChatUpdateManyWithWhereWithoutRecipientInput[]
+    deleteMany?: ChatScalarWhereInput | ChatScalarWhereInput[]
   }
 
   export type LikeUncheckedUpdateManyWithoutSenderNestedInput = {
@@ -12163,14 +12209,18 @@ export namespace Prisma {
     deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
-  export type LikeUncheckedUpdateOneWithoutRecipientNestedInput = {
-    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
-    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput
-    upsert?: LikeUpsertWithoutRecipientInput
-    disconnect?: LikeWhereInput | boolean
-    delete?: LikeWhereInput | boolean
-    connect?: LikeWhereUniqueInput
-    update?: XOR<XOR<LikeUpdateToOneWithWhereWithoutRecipientInput, LikeUpdateWithoutRecipientInput>, LikeUncheckedUpdateWithoutRecipientInput>
+  export type LikeUncheckedUpdateManyWithoutRecipientNestedInput = {
+    create?: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput> | LikeCreateWithoutRecipientInput[] | LikeUncheckedCreateWithoutRecipientInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutRecipientInput | LikeCreateOrConnectWithoutRecipientInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutRecipientInput | LikeUpsertWithWhereUniqueWithoutRecipientInput[]
+    createMany?: LikeCreateManyRecipientInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutRecipientInput | LikeUpdateWithWhereUniqueWithoutRecipientInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutRecipientInput | LikeUpdateManyWithWhereWithoutRecipientInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutProfileInput = {
@@ -12691,6 +12741,11 @@ export namespace Prisma {
     create: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
   }
 
+  export type ChatCreateManyRecipientInputEnvelope = {
+    data: ChatCreateManyRecipientInput | ChatCreateManyRecipientInput[]
+    skipDuplicates?: boolean
+  }
+
   export type LikeCreateWithoutSenderInput = {
     recipient: UserCreateNestedOneWithoutReceivedLikesInput
   }
@@ -12722,6 +12777,11 @@ export namespace Prisma {
   export type LikeCreateOrConnectWithoutRecipientInput = {
     where: LikeWhereUniqueInput
     create: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
+  }
+
+  export type LikeCreateManyRecipientInputEnvelope = {
+    data: LikeCreateManyRecipientInput | LikeCreateManyRecipientInput[]
+    skipDuplicates?: boolean
   }
 
   export type ProfileUpsertWithoutUserInput = {
@@ -12781,28 +12841,20 @@ export namespace Prisma {
     recipientId?: IntNullableFilter<"Chat"> | number | null
   }
 
-  export type ChatUpsertWithoutRecipientInput = {
+  export type ChatUpsertWithWhereUniqueWithoutRecipientInput = {
+    where: ChatWhereUniqueInput
     update: XOR<ChatUpdateWithoutRecipientInput, ChatUncheckedUpdateWithoutRecipientInput>
     create: XOR<ChatCreateWithoutRecipientInput, ChatUncheckedCreateWithoutRecipientInput>
-    where?: ChatWhereInput
   }
 
-  export type ChatUpdateToOneWithWhereWithoutRecipientInput = {
-    where?: ChatWhereInput
+  export type ChatUpdateWithWhereUniqueWithoutRecipientInput = {
+    where: ChatWhereUniqueInput
     data: XOR<ChatUpdateWithoutRecipientInput, ChatUncheckedUpdateWithoutRecipientInput>
   }
 
-  export type ChatUpdateWithoutRecipientInput = {
-    message?: StringFieldUpdateOperationsInput | string
-    time?: DateTimeFieldUpdateOperationsInput | Date | string
-    sender?: UserUpdateOneWithoutSentChatsNestedInput
-  }
-
-  export type ChatUncheckedUpdateWithoutRecipientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    message?: StringFieldUpdateOperationsInput | string
-    time?: DateTimeFieldUpdateOperationsInput | Date | string
-    senderId?: NullableIntFieldUpdateOperationsInput | number | null
+  export type ChatUpdateManyWithWhereWithoutRecipientInput = {
+    where: ChatScalarWhereInput
+    data: XOR<ChatUpdateManyMutationInput, ChatUncheckedUpdateManyWithoutRecipientInput>
   }
 
   export type LikeUpsertWithWhereUniqueWithoutSenderInput = {
@@ -12830,33 +12882,29 @@ export namespace Prisma {
     recipientId?: IntFilter<"Like"> | number
   }
 
-  export type LikeUpsertWithoutRecipientInput = {
+  export type LikeUpsertWithWhereUniqueWithoutRecipientInput = {
+    where: LikeWhereUniqueInput
     update: XOR<LikeUpdateWithoutRecipientInput, LikeUncheckedUpdateWithoutRecipientInput>
     create: XOR<LikeCreateWithoutRecipientInput, LikeUncheckedCreateWithoutRecipientInput>
-    where?: LikeWhereInput
   }
 
-  export type LikeUpdateToOneWithWhereWithoutRecipientInput = {
-    where?: LikeWhereInput
+  export type LikeUpdateWithWhereUniqueWithoutRecipientInput = {
+    where: LikeWhereUniqueInput
     data: XOR<LikeUpdateWithoutRecipientInput, LikeUncheckedUpdateWithoutRecipientInput>
   }
 
-  export type LikeUpdateWithoutRecipientInput = {
-    sender?: UserUpdateOneRequiredWithoutSentLikesNestedInput
-  }
-
-  export type LikeUncheckedUpdateWithoutRecipientInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    senderId?: IntFieldUpdateOperationsInput | number
+  export type LikeUpdateManyWithWhereWithoutRecipientInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutRecipientInput>
   }
 
   export type UserCreateWithoutProfileInput = {
     email: string
     name: string
     sentChats?: ChatCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUncheckedCreateWithoutProfileInput = {
@@ -12864,9 +12912,9 @@ export namespace Prisma {
     email: string
     name: string
     sentChats?: ChatUncheckedCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatUncheckedCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatUncheckedCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeUncheckedCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeUncheckedCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeUncheckedCreateNestedManyWithoutRecipientInput
   }
 
   export type UserCreateOrConnectWithoutProfileInput = {
@@ -12945,9 +12993,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     sentChats?: ChatUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProfileInput = {
@@ -12955,9 +13003,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     sentChats?: ChatUncheckedUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUncheckedUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUncheckedUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
   export type HumanUpsertWithoutProfileInput = {
@@ -13269,9 +13317,9 @@ export namespace Prisma {
     email: string
     name: string
     profile?: ProfileCreateNestedOneWithoutUserInput
-    receivedChats?: ChatCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUncheckedCreateWithoutSentChatsInput = {
@@ -13279,9 +13327,9 @@ export namespace Prisma {
     email: string
     name: string
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
-    receivedChats?: ChatUncheckedCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatUncheckedCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeUncheckedCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeUncheckedCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeUncheckedCreateNestedManyWithoutRecipientInput
   }
 
   export type UserCreateOrConnectWithoutSentChatsInput = {
@@ -13295,7 +13343,7 @@ export namespace Prisma {
     profile?: ProfileCreateNestedOneWithoutUserInput
     sentChats?: ChatCreateNestedManyWithoutSenderInput
     sentLikes?: LikeCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUncheckedCreateWithoutReceivedChatsInput = {
@@ -13305,7 +13353,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     sentChats?: ChatUncheckedCreateNestedManyWithoutSenderInput
     sentLikes?: LikeUncheckedCreateNestedManyWithoutSenderInput
-    receivedLikes?: LikeUncheckedCreateNestedOneWithoutRecipientInput
+    receivedLikes?: LikeUncheckedCreateNestedManyWithoutRecipientInput
   }
 
   export type UserCreateOrConnectWithoutReceivedChatsInput = {
@@ -13328,9 +13376,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUpdateOneWithoutUserNestedInput
-    receivedChats?: ChatUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentChatsInput = {
@@ -13338,9 +13386,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
-    receivedChats?: ChatUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUncheckedUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUncheckedUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUpsertWithoutReceivedChatsInput = {
@@ -13360,7 +13408,7 @@ export namespace Prisma {
     profile?: ProfileUpdateOneWithoutUserNestedInput
     sentChats?: ChatUpdateManyWithoutSenderNestedInput
     sentLikes?: LikeUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReceivedChatsInput = {
@@ -13370,7 +13418,7 @@ export namespace Prisma {
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     sentChats?: ChatUncheckedUpdateManyWithoutSenderNestedInput
     sentLikes?: LikeUncheckedUpdateManyWithoutSenderNestedInput
-    receivedLikes?: LikeUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedLikes?: LikeUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserCreateWithoutSentLikesInput = {
@@ -13378,8 +13426,8 @@ export namespace Prisma {
     name: string
     profile?: ProfileCreateNestedOneWithoutUserInput
     sentChats?: ChatCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatCreateNestedOneWithoutRecipientInput
-    receivedLikes?: LikeCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatCreateNestedManyWithoutRecipientInput
+    receivedLikes?: LikeCreateNestedManyWithoutRecipientInput
   }
 
   export type UserUncheckedCreateWithoutSentLikesInput = {
@@ -13388,8 +13436,8 @@ export namespace Prisma {
     name: string
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     sentChats?: ChatUncheckedCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatUncheckedCreateNestedOneWithoutRecipientInput
-    receivedLikes?: LikeUncheckedCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatUncheckedCreateNestedManyWithoutRecipientInput
+    receivedLikes?: LikeUncheckedCreateNestedManyWithoutRecipientInput
   }
 
   export type UserCreateOrConnectWithoutSentLikesInput = {
@@ -13402,7 +13450,7 @@ export namespace Prisma {
     name: string
     profile?: ProfileCreateNestedOneWithoutUserInput
     sentChats?: ChatCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeCreateNestedManyWithoutSenderInput
   }
 
@@ -13412,7 +13460,7 @@ export namespace Prisma {
     name: string
     profile?: ProfileUncheckedCreateNestedOneWithoutUserInput
     sentChats?: ChatUncheckedCreateNestedManyWithoutSenderInput
-    receivedChats?: ChatUncheckedCreateNestedOneWithoutRecipientInput
+    receivedChats?: ChatUncheckedCreateNestedManyWithoutRecipientInput
     sentLikes?: LikeUncheckedCreateNestedManyWithoutSenderInput
   }
 
@@ -13437,8 +13485,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUpdateOneWithoutUserNestedInput
     sentChats?: ChatUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUpdateOneWithoutRecipientNestedInput
-    receivedLikes?: LikeUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUpdateManyWithoutRecipientNestedInput
+    receivedLikes?: LikeUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentLikesInput = {
@@ -13447,8 +13495,8 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     sentChats?: ChatUncheckedUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUncheckedUpdateOneWithoutRecipientNestedInput
-    receivedLikes?: LikeUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUncheckedUpdateManyWithoutRecipientNestedInput
+    receivedLikes?: LikeUncheckedUpdateManyWithoutRecipientNestedInput
   }
 
   export type UserUpsertWithoutReceivedLikesInput = {
@@ -13467,7 +13515,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUpdateOneWithoutUserNestedInput
     sentChats?: ChatUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUpdateManyWithoutSenderNestedInput
   }
 
@@ -13477,7 +13525,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profile?: ProfileUncheckedUpdateOneWithoutUserNestedInput
     sentChats?: ChatUncheckedUpdateManyWithoutSenderNestedInput
-    receivedChats?: ChatUncheckedUpdateOneWithoutRecipientNestedInput
+    receivedChats?: ChatUncheckedUpdateManyWithoutRecipientNestedInput
     sentLikes?: LikeUncheckedUpdateManyWithoutSenderNestedInput
   }
 
@@ -13488,9 +13536,21 @@ export namespace Prisma {
     recipientId?: number | null
   }
 
+  export type ChatCreateManyRecipientInput = {
+    id?: number
+    message: string
+    time?: Date | string
+    senderId?: number | null
+  }
+
   export type LikeCreateManySenderInput = {
     id?: number
     recipientId: number
+  }
+
+  export type LikeCreateManyRecipientInput = {
+    id?: number
+    senderId: number
   }
 
   export type ChatUpdateWithoutSenderInput = {
@@ -13513,6 +13573,26 @@ export namespace Prisma {
     recipientId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
+  export type ChatUpdateWithoutRecipientInput = {
+    message?: StringFieldUpdateOperationsInput | string
+    time?: DateTimeFieldUpdateOperationsInput | Date | string
+    sender?: UserUpdateOneWithoutSentChatsNestedInput
+  }
+
+  export type ChatUncheckedUpdateWithoutRecipientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    message?: StringFieldUpdateOperationsInput | string
+    time?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ChatUncheckedUpdateManyWithoutRecipientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    message?: StringFieldUpdateOperationsInput | string
+    time?: DateTimeFieldUpdateOperationsInput | Date | string
+    senderId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type LikeUpdateWithoutSenderInput = {
     recipient?: UserUpdateOneRequiredWithoutReceivedLikesNestedInput
   }
@@ -13525,6 +13605,20 @@ export namespace Prisma {
   export type LikeUncheckedUpdateManyWithoutSenderInput = {
     id?: IntFieldUpdateOperationsInput | number
     recipientId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LikeUpdateWithoutRecipientInput = {
+    sender?: UserUpdateOneRequiredWithoutSentLikesNestedInput
+  }
+
+  export type LikeUncheckedUpdateWithoutRecipientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    senderId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type LikeUncheckedUpdateManyWithoutRecipientInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    senderId?: IntFieldUpdateOperationsInput | number
   }
 
   export type ProfileTagCreateManyProfileInput = {
